@@ -3,14 +3,15 @@
 
 ## Introduction
 
-In this lab, we'll gain practice combining DataFrames through concatenation.  We'll also learn to read in tables from a Database and store them in separate tables, as well as how to execute various types of joins to selectively combine the information stored in the tables!
+In this lab, we'll gain practice combining DataFrames through concatenation.  We'll also learn to read in tables from a database and store them in separate tables, as well as how to execute various types of joins to selectively combine the information stored in the tables!
 
-## Objectives
 
-* Concatenate multiple DataFrames together into a single DataFrame
-* Use `sqlalchemy` to connect to a sqlite database and read in individual tables as DataFrames
-* Understand and execute the various types of joins (inner, outer, left, and right joins)
-
+## Objectives:
+You will be able to:
+* Understand and explain when to use DataFrame joins and merges
+* Be able to use pd.merge when combining DataFrames based on column values
+* Understand, explain and use a range of DataFrame merge types: outer, inner, left and right
+* Use pd.concat() to stack DataFrames
 
 ## Getting Started
 
@@ -204,7 +205,7 @@ outer_join_df
 
 Inspect the output above.  Note that the naming collision has been avoided by renaming the `cost` column from the right table to `cost_dust`.  
 
-# Conclusion
+## Summary
 
 In this lab, we learned how to:
 
