@@ -3,19 +3,17 @@
 
 ## Introduction
 
-In this lab, we'll gain practice combining DataFrames through concatenation.  We'll also learn to read in tables from a database and store them in separate tables, as well as how to execute various types of joins to selectively combine the information stored in the tables!
+In this lab, you'll gain practice combining DataFrames through concatenation.  You'll also learn to read in tables from a Database and store them in separate tables, as well as how to execute various types of joins to selectively combine the information stored in the tables!
 
+## Objectives
 
-## Objectives:
-You will be able to:
-* Understand and explain when to use DataFrame joins and merges
-* Be able to use pd.merge when combining DataFrames based on column values
-* Understand, explain and use a range of DataFrame merge types: outer, inner, left and right
-* Use pd.concat() to stack DataFrames
+* Concatenate multiple DataFrames together into a single DataFrame
+* Understand and execute the various types of joins (inner, outer, left, and right joins)
+
 
 ## Getting Started
 
-We'll start with a quick section to help us gain practice with concatenating datasets using `pd.concat()`.
+You'll start with a quick section to gain practice with concatenating datasets using `pd.concat()`.
 
 ### Concatenating DataFrames
 
@@ -44,7 +42,7 @@ df3 = pd.DataFrame({'A': ['A8', 'A9', 'A10', 'A11'],
                     index=[8, 9, 10, 11])
 ```
 
-Now that we have multiple DataFrames to work with, we can execute a concatenation to join them together.  
+Now that you have multiple DataFrames to work with, you can execute a concatenation to join them together.  
 
 In the cell below, concatenate the 3 DataFrames together using the appropriate function.  
 
@@ -59,7 +57,7 @@ combined_df = None
 
 ### Setting Join Conditions With Concatenation
 
-We can also specify if the concatenation is an **_Outer Join_** or an **_Inner Join_**.  Next, we'll execute an inner join. Before we do, we need to create another table that contains some overlapping index values with a DataFrame that already exists.  
+You can also specify if the concatenation is an **_Outer Join_** or an **_Inner Join_**.  Next, you'll execute an inner join. Before you do, you need to create another table that contains some overlapping index values with a DataFrame that already exists.  
 
 Run the cell below to create the new DataFrame.
 
@@ -83,13 +81,12 @@ df1_and_4
 
 <img src='er2.png'>
 
-We'll notice that in this case, the results returned contain only the rows with indexes that exist in both tables--rows 2 and 3.  The resulting table contains the values for each column in both tables for the rows.  
+You'll notice that in this case, the results returned contain only the rows with indexes that exist in both tables--rows 2 and 3.  The resulting table contains the values for each column in both tables for the rows.  
 
-Note that there are many, many ways that we can make full use of the `concat()` functionality in pandas to join DataFrames together--these are just a few of the most common examples pulled from the pandas documentation on the subject.  For a full view of all the ways we can use `pd.concat()`, see the [pandas documentation](http://pandas.pydata.org/pandas-docs/stable/merging.html)!
+Note that there are many, many ways that you can make full use of the `concat()` functionality in pandas to join DataFrames together--these are just a few of the most common examples pulled from the pandas documentation on the subject.  For a full view of all the ways you can use `pd.concat()`, see the [pandas documentation](http://pandas.pydata.org/pandas-docs/stable/merging.html)!
 
-## Loading In Data From SQL Database Tables
-
-Now, we'll move on to working with the Hearthstone cards database.  This database contains information on cards from the popular game, [Hearthstone](https://playhearthstone.com/en-us/)! For full information on the dataset, see the  [kaggle page](https://www.kaggle.com/jeradrose/hearthstone-cards) for this dataset. 
+## Loading In Data
+Now, it's time to move on to working with the Hearthstone cards database.  This database contains information on cards from the popular game, [Hearthstone](https://playhearthstone.com/en-us/)! For full information on the dataset, see the  [kaggle page](https://www.kaggle.com/jeradrose/hearthstone-cards) for this dataset. 
 
 This database consists of the following tables:
 
@@ -99,14 +96,9 @@ This database consists of the following tables:
 * _mechanics_
 * *play_requirements*
 
-Many of rows in each table--but not all--correspond to the same cards. As such, each table contains a column called `card_id` which acts as a **_Primary Key_** for each table.  We'll make use of these keys to **_join_** the different tables together into a single DataFrame.  We'll also experiment with different types of joins to help us decide exactly what information we want to combine.  
+Many of rows in each table--but not all--correspond to the same cards. As such, each table contains a column called `card_id` which acts as a **_Primary Key_** for each table.  You'll make use of these keys to **_join_** the different tables together into a single DataFrame.  You'll also experiment with different types of joins to help us decide exactly what information you wish to combine.  
 
-Before we can begin working with the database, we'll first need to connect to it.  For this, we'll use the `sqlalchemy` library.
-
-In the cell below:
-
-* Import the `create_engine` module from `sqlalchemy`
-* Create an engine that connects to `sqlite:///database.sqlite`.
+Simply run the cell below to import the tables from the database as DataFrames.
 
 
 ```python
@@ -115,13 +107,7 @@ In the cell below:
 engine = None
 ```
 
-Now that we've successfully connected to our Database, we'll make use of pandas to read in each table individually.  
-
-In the cell below, read in each sql table into separate pandas DataFrames using the `read_sql_table` method.  
-
-The first argument should be a string corresponding to the name of the table, and the second argument should be the `engine` object we created in the cell above. 
-
-If you're unsure of how to do this, see the [documentation](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_sql_table.html).
+#blank markdown to be removed`
 
 
 ```python
@@ -134,23 +120,23 @@ play_requirements_df = None
 
 Great.  Now, let's set the correct column, `card_id`, as the index column for each of these tables, and then display each to ensure that everything is as expected.  
 
-For each of the dataframes we created in the cell above, call the `.set_index()` method and pass in `card_id`.  Also set `inplace=True`.  Then, display the head of each respective DataFrame to ensure everything worked.  
+For each of the dataframes you created in the cell above, call the `.set_index()` method and pass in `card_id`.  Also set `inplace=True`.  Then, display the head of each respective DataFrame to ensure everything worked.  
 
-**_NOTE:_** Since we are performing this operation in place, running any cell a second time will result in pandas throwing an error.  If you need to run something a second time, restart the kernel using the jupyter notebook menu at the top of the page.  
+**_NOTE:_** Since you are performing this operation in place, running any cell a second time will result in pandas throwing an error.  If you need to run something a second time, restart the kernel using the jupyter notebook menu at the top of the page.  
 
 ### Executing Joins
 
-Now that we have the tables loaded correctly, we're going to execute some joins. There are 4 different kinds of joins, which can best be visualized with venn diagrams:
+Now that you have the tables loaded correctly, we're going to execute some joins. There are 4 different kinds of joins, which can best be visualized with venn diagrams:
 
 <img src='joins.png'>
 
-In these diagrams, each circle represents a DataFrame or SQL Table.  The left table is the table we are working with, and the right table is the table we want to join to the table we are working with.  We'll start by executing the most common type of join, an **_Inner Join_**.
+In these diagrams, each circle represents a DataFrame or SQL Table.  The left table is the table you are working with, and the right table is the table you want to join to the table you are working with.  You'll start by executing the most common type of join, an **_Inner Join_**.
 
 In the cell below, join `cards_df` with `mechanics_df` using the built-in `.join()` method on the `cards_df` object. 
 
 Pass in the following parameters:
-* the table we want to join with, `mechanics_df`
-* The `how` parameter set to the type of join we want, `'inner'`
+* the table you want to join with, `mechanics_df`
+* The `how` parameter set to the type of join you want, `'inner'`
 
 
 ```python
@@ -158,7 +144,7 @@ cards_with_mechanics_df = None
 cards_with_mechanics_df
 ```
 
-Examine the output from the cell above and compare it to the original output of both the `cards_df` and `mechanics_df` DataFrame heads we displayed earlier.  Notice how it this now combines the columns from both?
+Examine the output from the cell above and compare it to the original output of both the `cards_df` and `mechanics_df` DataFrame heads you displayed earlier.  Notice how it this now combines the columns from both?
 
 **_Question_**
 
@@ -167,6 +153,7 @@ If you inspect the original `cards_df` DataFrame, you'll notice that it contains
 Write your answer below this line:
 ________________________________________________________________________________
 
+First performed an inner join, which only includes records that are present in both tables.  Although there were 2819 records in the left table, there were only 1079 records that existed in both tables, which are what you see in the resulting dataframe. 
 
 ### Other Types of Joins
 
@@ -180,7 +167,7 @@ left_join_df = None
 left_join_df
 ```
 
-Note that the results of this sort of join are dependent upon the position of each table--if we were to make `cards_with_mechanics_df` the right table and `play_requirements_df` the left table and then perform a **_Right Join_**, our results would be the same. 
+Note that the results of this sort of join are dependent upon the position of each table--if you were to make `cards_with_mechanics_df` the right table and `play_requirements_df` the left table and then perform a **_Right Join_**, our results would be the same. 
 
 **_Question:_**
 
@@ -189,7 +176,7 @@ Describe what was included from each table in this join.
 Write your answer below this line:
 ________________________________________________________________________________
 
-
+Every record from `cards_with_mechanics_df`, as well as any records from `play_requirements_df` that have matching index values with a record from the left table.  
 
 #### Outer Joins
 
@@ -207,8 +194,7 @@ Inspect the output above.  Note that the naming collision has been avoided by re
 
 ## Summary
 
-In this lab, we learned how to:
+In this lab, you learned how to:
 
 * Concatenate multiple DataFrames together into a single DataFrame
-* Use `sqlalchemy` to connect to a sqlite database and read in individual tables as DataFrames
 * Understand and execute the various types of joins (inner, outer, left, and right joins)
