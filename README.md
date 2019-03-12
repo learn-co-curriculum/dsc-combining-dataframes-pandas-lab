@@ -276,8 +276,6 @@ Many of rows in each table--but not all--correspond to the same cards. As such, 
 
 Simply run the cell below to import the tables from the database as DataFrames.
 
-#blank markdown to be removed`
-
 
 ```python
 cards_df = pd.read_csv('cards.csv')
