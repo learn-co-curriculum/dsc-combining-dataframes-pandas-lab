@@ -3,18 +3,17 @@
 
 ## Introduction
 
-In this lab, we'll gain practice combining DataFrames through concatenation.  We'll also learn to read in tables from a Database and store them in separate tables, as well as how to execute various types of joins to selectively combine the information stored in the tables!
+In this lab, you'll gain practice combining DataFrames through concatenation.  You'll also learn to read in tables from a Database and store them in separate tables, as well as how to execute various types of joins to selectively combine the information stored in the tables!
 
 ## Objectives
 
 * Concatenate multiple DataFrames together into a single DataFrame
-* Use `sqlalchemy` to connect to a sqlite database and read in individual tables as DataFrames
 * Understand and execute the various types of joins (inner, outer, left, and right joins)
 
 
 ## Getting Started
 
-We'll start with a quick section to help us gain practice with concatenating datasets using `pd.concat()`.
+You'll start with a quick section to gain practice with concatenating datasets using `pd.concat()`.
 
 ### Concatenating DataFrames
 
@@ -43,7 +42,7 @@ df3 = pd.DataFrame({'A': ['A8', 'A9', 'A10', 'A11'],
                     index=[8, 9, 10, 11])
 ```
 
-Now that we have multiple DataFrames to work with, we can execute a concatenation to join them together.  
+Now that you have multiple DataFrames to work with, you can execute a concatenation to join them together.  
 
 In the cell below, concatenate the 3 DataFrames together using the appropriate function.  
 
@@ -177,7 +176,7 @@ combined_df
 
 ### Setting Join Conditions With Concatenation
 
-We can also specify if the concatenation is an **_Outer Join_** or an **_Inner Join_**.  Next, we'll execute an inner join. Before we do, we need to create another table that contains some overlapping index values with a DataFrame that already exists.  
+You can also specify if the concatenation is an **_Outer Join_** or an **_Inner Join_**.  Next, you'll execute an inner join. Before you do, you need to create another table that contains some overlapping index values with a DataFrame that already exists.  
 
 Run the cell below to create the new DataFrame.
 
@@ -258,13 +257,12 @@ df1_and_4
 
 <img src='er2.png'>
 
-We'll notice that in this case, the results returned contain only the rows with indexes that exist in both tables--rows 2 and 3.  The resulting table contains the values for each column in both tables for the rows.  
+You'll notice that in this case, the results returned contain only the rows with indexes that exist in both tables--rows 2 and 3.  The resulting table contains the values for each column in both tables for the rows.  
 
-Note that there are many, many ways that we can make full use of the `concat()` functionality in pandas to join DataFrames together--these are just a few of the most common examples pulled from the pandas documentation on the subject.  For a full view of all the ways we can use `pd.concat()`, see the [pandas documentation](http://pandas.pydata.org/pandas-docs/stable/merging.html)!
+Note that there are many, many ways that you can make full use of the `concat()` functionality in pandas to join DataFrames together--these are just a few of the most common examples pulled from the pandas documentation on the subject.  For a full view of all the ways you can use `pd.concat()`, see the [pandas documentation](http://pandas.pydata.org/pandas-docs/stable/merging.html)!
 
-## Loading In Data From SQL Database Tables
-
-Now, we'll move on to working with the Hearthstone cards database.  This database contains information on cards from the popular game, [Hearthstone](https://playhearthstone.com/en-us/)! For full information on the dataset, see the  [kaggle page](https://www.kaggle.com/jeradrose/hearthstone-cards) for this dataset. 
+## Loading In Data
+Now, it's time to move on to working with the Hearthstone cards database.  This database contains information on cards from the popular game, [Hearthstone](https://playhearthstone.com/en-us/)! For full information on the dataset, see the  [kaggle page](https://www.kaggle.com/jeradrose/hearthstone-cards) for this dataset. 
 
 This database consists of the following tables:
 
@@ -274,44 +272,24 @@ This database consists of the following tables:
 * _mechanics_
 * *play_requirements*
 
-Many of rows in each table--but not all--correspond to the same cards. As such, each table contains a column called `card_id` which acts as a **_Primary Key_** for each table.  We'll make use of these keys to **_join_** the different tables together into a single DataFrame.  We'll also experiment with different types of joins to help us decide exactly what information we want to combine.  
+Many of rows in each table--but not all--correspond to the same cards. As such, each table contains a column called `card_id` which acts as a **_Primary Key_** for each table.  You'll make use of these keys to **_join_** the different tables together into a single DataFrame.  You'll also experiment with different types of joins to help us decide exactly what information you wish to combine.  
 
-Before we can begin working with the database, we'll first need to connect to it.  For this, we'll use the `sqlalchemy` library.
-
-In the cell below:
-
-* Import the `create_engine` module from `sqlalchemy`
-* Create an engine that connects to `sqlite:///database.sqlite`.
+Simply run the cell below to import the tables from the database as DataFrames.
 
 
 ```python
-from sqlalchemy import create_engine
-
-engine = create_engine('sqlite:///database.sqlite')
-```
-
-Now that we've successfully connected to our Database, we'll make use of pandas to read in each table individually.  
-
-In the cell below, read in each sql table into separate pandas DataFrames using the `read_sql_table` method.  
-
-The first argument should be a string corresponding to the name of the table, and the second argument should be the `engine` object we created in the cell above. 
-
-If you're unsure of how to do this, see the [documentation](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_sql_table.html).
-
-
-```python
-cards_df = pd.read_sql_table('cards', engine)
-dust_df = pd.read_sql_table('dust_costs', engine)
-entourages_df = pd.read_sql_table('entourages', engine)
-mechanics_df = pd.read_sql_table('mechanics', engine)
-play_requirements_df = pd.read_sql_table('play_requirements', engine)
+cards_df = pd.read_csv('cards.csv')
+dust_df = pd.read_csv('dust.csv')
+entourages_df = pd.read_csv('entourages.csv')
+mechanics_df = pd.read_csv('mechanics.csv')
+play_requirements_df = pd.read_csv('play_requirements.csv')
 ```
 
 Great.  Now, let's set the correct column, `card_id`, as the index column for each of these tables, and then display each to ensure that everything is as expected.  
 
-For each of the dataframes we created in the cell above, call the `.set_index()` method and pass in `card_id`.  Also set `inplace=True`.  Then, display the head of each respective DataFrame to ensure everything worked.  
+For each of the dataframes you created in the cell above, call the `.set_index()` method and pass in `card_id`.  Also set `inplace=True`.  Then, display the head of each respective DataFrame to ensure everything worked.  
 
-**_NOTE:_** Since we are performing this operation in place, running any cell a second time will result in pandas throwing an error.  If you need to run something a second time, restart the kernel using the jupyter notebook menu at the top of the page.  
+**_NOTE:_** Since you are performing this operation in place, running any cell a second time will result in pandas throwing an error.  If you need to run something a second time, restart the kernel using the jupyter notebook menu at the top of the page.  
 
 
 ```python
@@ -390,14 +368,14 @@ cards_df.head()
       <td>1.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -410,14 +388,14 @@ cards_df.head()
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -426,18 +404,18 @@ cards_df.head()
       <td>MINION</td>
       <td>Druid of the Flame</td>
       <td>BRM</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>3.0</td>
       <td>2.0</td>
       <td>5.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -453,11 +431,11 @@ cards_df.head()
       <td>LEGENDARY</td>
       <td>1.0</td>
       <td>It's like putting racing stripes and a giant s...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
     </tr>
     <tr>
@@ -466,18 +444,18 @@ cards_df.head()
       <td>MINION</td>
       <td>Faceless Behemoth</td>
       <td>OG</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>10.0</td>
       <td>10.0</td>
       <td>10.0</td>
       <td>COMMON</td>
       <td>1.0</td>
       <td>Rejected names: Forty-Foot Faceless, Big ol' N...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
     </tr>
   </tbody>
@@ -746,17 +724,17 @@ play_requirements_df.head()
 
 ### Executing Joins
 
-Now that we have the tables loaded correctly, we're going to execute some joins. There are 4 different kinds of joins, which can best be visualized with venn diagrams:
+Now that you have the tables loaded correctly, we're going to execute some joins. There are 4 different kinds of joins, which can best be visualized with venn diagrams:
 
 <img src='joins.png'>
 
-In these diagrams, each circle represents a DataFrame or SQL Table.  The left table is the table we are working with, and the right table is the table we want to join to the table we are working with.  We'll start by executing the most common type of join, an **_Inner Join_**.
+In these diagrams, each circle represents a DataFrame or SQL Table.  The left table is the table you are working with, and the right table is the table you want to join to the table you are working with.  You'll start by executing the most common type of join, an **_Inner Join_**.
 
 In the cell below, join `cards_df` with `mechanics_df` using the built-in `.join()` method on the `cards_df` object. 
 
 Pass in the following parameters:
-* the table we want to join with, `mechanics_df`
-* The `how` parameter set to the type of join we want, `'inner'`
+* the table you want to join with, `mechanics_df`
+* The `how` parameter set to the type of join you want, `'inner'`
 
 
 ```python
@@ -840,11 +818,11 @@ cards_with_mechanics_df
       <td>RARE</td>
       <td>1.0</td>
       <td>Burning man, brah.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
     </tr>
@@ -858,14 +836,14 @@ cards_with_mechanics_df
       <td>3.0</td>
       <td>4.0</td>
       <td>2.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CHARGE</td>
     </tr>
@@ -882,11 +860,11 @@ cards_with_mechanics_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Is he aspiring or inspiring?  Make up your mind!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
     </tr>
@@ -903,11 +881,11 @@ cards_with_mechanics_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Does he sling spells, or do his spells linger ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -924,11 +902,11 @@ cards_with_mechanics_df
       <td>LEGENDARY</td>
       <td>1.0</td>
       <td>A masterless shamurai.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
     </tr>
@@ -945,11 +923,11 @@ cards_with_mechanics_df
       <td>RARE</td>
       <td>1.0</td>
       <td>Not getting trampled is really the trick here.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -963,14 +941,14 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>AURA</td>
     </tr>
@@ -987,11 +965,11 @@ cards_with_mechanics_df
       <td>RARE</td>
       <td>1.0</td>
       <td>What did you expect to happen?  He's a Spawn. ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
     </tr>
@@ -1009,10 +987,10 @@ cards_with_mechanics_df
       <td>1.0</td>
       <td>A result of magical experiments carried out by...</td>
       <td>DRAGON</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -1029,11 +1007,11 @@ cards_with_mechanics_df
       <td>LEGENDARY</td>
       <td>1.0</td>
       <td>She sees into your past and makes you face you...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
     </tr>
@@ -1051,10 +1029,10 @@ cards_with_mechanics_df
       <td>1.0</td>
       <td>Crescendo himself summoned this steed, riding ...</td>
       <td>DEMON</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
     </tr>
@@ -1071,11 +1049,11 @@ cards_with_mechanics_df
       <td>RARE</td>
       <td>1.0</td>
       <td>* Not actually Jaraxxus' fist.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>InvisibleDeathrattle</td>
     </tr>
@@ -1093,10 +1071,10 @@ cards_with_mechanics_df
       <td>1.0</td>
       <td>We like to call him "Wesley".</td>
       <td>DEMON</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
     </tr>
@@ -1113,11 +1091,11 @@ cards_with_mechanics_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>He needed a break after that business in the V...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>COMBO</td>
     </tr>
@@ -1134,11 +1112,11 @@ cards_with_mechanics_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Almost went to play for Stormwind before signi...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>Deal 1 damage.</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>COMBO</td>
     </tr>
@@ -1155,11 +1133,11 @@ cards_with_mechanics_df
       <td>RARE</td>
       <td>1.0</td>
       <td>I have great deal for you... for 4 damage to y...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -1173,14 +1151,14 @@ cards_with_mechanics_df
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TOPDECK</td>
     </tr>
@@ -1197,11 +1175,11 @@ cards_with_mechanics_df
       <td>LEGENDARY</td>
       <td>1.0</td>
       <td>Was actually a pretty nice guy before, you kno...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
     </tr>
@@ -1218,11 +1196,11 @@ cards_with_mechanics_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>2 out of 2 saplings recommend that you summon ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CHOOSE_ONE</td>
     </tr>
@@ -1239,11 +1217,11 @@ cards_with_mechanics_df
       <td>RARE</td>
       <td>1.0</td>
       <td>She loves mana crystals, she hates mana crysta...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -1260,11 +1238,11 @@ cards_with_mechanics_df
       <td>RARE</td>
       <td>1.0</td>
       <td>She loves mana crystals, she hates mana crysta...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
     </tr>
@@ -1282,10 +1260,10 @@ cards_with_mechanics_df
       <td>1.0</td>
       <td>Maybe if you whistle a tune it will soothe him...</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
     </tr>
@@ -1299,14 +1277,14 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TAG_ONE_TURN_EFFECT</td>
     </tr>
@@ -1323,11 +1301,11 @@ cards_with_mechanics_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>She was born to be something.  She is just not...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -1344,11 +1322,11 @@ cards_with_mechanics_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>That's saberTEETH, not like curved pirate blad...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CHOOSE_ONE</td>
     </tr>
@@ -1364,12 +1342,12 @@ cards_with_mechanics_df
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CHARGE</td>
     </tr>
@@ -1385,12 +1363,12 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>STEALTH</td>
     </tr>
@@ -1407,11 +1385,11 @@ cards_with_mechanics_df
       <td>LEGENDARY</td>
       <td>1.0</td>
       <td>Call her "Tweety".  She'll find it real funny....</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>AURA</td>
     </tr>
@@ -1428,11 +1406,11 @@ cards_with_mechanics_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Turns out the tuskarr aren't real choosy about...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -1449,11 +1427,11 @@ cards_with_mechanics_df
       <td>RARE</td>
       <td>1.0</td>
       <td>It's nice to find a real craftsman in this day...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -1488,14 +1466,14 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
     </tr>
@@ -1509,14 +1487,14 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
     </tr>
@@ -1530,14 +1508,14 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
     </tr>
@@ -1551,14 +1529,14 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
     </tr>
@@ -1572,14 +1550,14 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
     </tr>
@@ -1593,14 +1571,14 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
     </tr>
@@ -1610,18 +1588,18 @@ cards_with_mechanics_df
       <td>HERO</td>
       <td>The Cow King</td>
       <td>TB</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>30.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>InvisibleDeathrattle</td>
     </tr>
@@ -1635,14 +1613,14 @@ cards_with_mechanics_df
       <td>4.0</td>
       <td>0.0</td>
       <td>10.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -1656,14 +1634,14 @@ cards_with_mechanics_df
       <td>4.0</td>
       <td>0.0</td>
       <td>10.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>IMMUNE</td>
     </tr>
@@ -1677,14 +1655,14 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>0.0</td>
       <td>1.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TAUNT</td>
     </tr>
@@ -1698,14 +1676,14 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>0.0</td>
       <td>2.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ADJACENT_BUFF</td>
     </tr>
@@ -1719,14 +1697,14 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>0.0</td>
       <td>2.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>AURA</td>
     </tr>
@@ -1742,12 +1720,12 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
     </tr>
@@ -1761,14 +1739,14 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TAG_ONE_TURN_EFFECT</td>
     </tr>
@@ -1784,12 +1762,12 @@ cards_with_mechanics_df
       <td>2.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -1805,12 +1783,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -1826,12 +1804,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -1847,12 +1825,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>FREEZE</td>
     </tr>
@@ -1868,12 +1846,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -1887,14 +1865,14 @@ cards_with_mechanics_df
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -1910,12 +1888,12 @@ cards_with_mechanics_df
       <td>5.0</td>
       <td>LEGENDARY</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -1931,12 +1909,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -1952,12 +1930,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -1973,12 +1951,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -1994,12 +1972,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -2015,12 +1993,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -2036,12 +2014,12 @@ cards_with_mechanics_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
     </tr>
@@ -2057,12 +2035,12 @@ cards_with_mechanics_df
       <td>5.0</td>
       <td>LEGENDARY</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
     </tr>
@@ -2078,12 +2056,12 @@ cards_with_mechanics_df
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TAUNT</td>
     </tr>
@@ -2100,11 +2078,11 @@ cards_with_mechanics_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>While it's fun to intercept enemy lightning bo...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
     </tr>
@@ -2115,7 +2093,7 @@ cards_with_mechanics_df
 
 
 
-Examine the output from the cell above and compare it to the original output of both the `cards_df` and `mechanics_df` DataFrame heads we displayed earlier.  Notice how it this now combines the columns from both?
+Examine the output from the cell above and compare it to the original output of both the `cards_df` and `mechanics_df` DataFrame heads you displayed earlier.  Notice how it this now combines the columns from both?
 
 **_Question_**
 
@@ -2124,7 +2102,7 @@ If you inspect the original `cards_df` DataFrame, you'll notice that it contains
 Write your answer below this line:
 ________________________________________________________________________________
 
-We performed an inner join, which only includes records that are present in both tables.  Although there were 2819 records in the left table, there were only 1079 records that existed in both tables, which are what we see in the resulting dataframe. 
+First performed an inner join, which only includes records that are present in both tables.  Although there were 2819 records in the left table, there were only 1079 records that existed in both tables, which are what you see in the resulting dataframe. 
 
 ### Other Types of Joins
 
@@ -2218,11 +2196,11 @@ left_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>Burning man, brah.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
       <td>NaN</td>
@@ -2238,14 +2216,14 @@ left_join_df
       <td>3.0</td>
       <td>4.0</td>
       <td>2.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CHARGE</td>
       <td>NaN</td>
@@ -2264,11 +2242,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Is he aspiring or inspiring?  Make up your mind!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
       <td>NaN</td>
@@ -2287,11 +2265,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Does he sling spells, or do his spells linger ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>NaN</td>
@@ -2310,11 +2288,11 @@ left_join_df
       <td>LEGENDARY</td>
       <td>1.0</td>
       <td>A masterless shamurai.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
       <td>NaN</td>
@@ -2333,11 +2311,11 @@ left_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>Not getting trampled is really the trick here.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>NaN</td>
@@ -2353,14 +2331,14 @@ left_join_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>AURA</td>
       <td>NaN</td>
@@ -2379,11 +2357,11 @@ left_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>What did you expect to happen?  He's a Spawn. ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
       <td>NaN</td>
@@ -2403,10 +2381,10 @@ left_join_df
       <td>1.0</td>
       <td>A result of magical experiments carried out by...</td>
       <td>DRAGON</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>NaN</td>
@@ -2425,11 +2403,11 @@ left_join_df
       <td>LEGENDARY</td>
       <td>1.0</td>
       <td>She sees into your past and makes you face you...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
       <td>NaN</td>
@@ -2449,10 +2427,10 @@ left_join_df
       <td>1.0</td>
       <td>Crescendo himself summoned this steed, riding ...</td>
       <td>DEMON</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
       <td>NaN</td>
@@ -2471,11 +2449,11 @@ left_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>* Not actually Jaraxxus' fist.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>InvisibleDeathrattle</td>
       <td>NaN</td>
@@ -2495,10 +2473,10 @@ left_join_df
       <td>1.0</td>
       <td>We like to call him "Wesley".</td>
       <td>DEMON</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
       <td>NaN</td>
@@ -2517,11 +2495,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>He needed a break after that business in the V...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>COMBO</td>
       <td>NaN</td>
@@ -2540,11 +2518,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Almost went to play for Stormwind before signi...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>Deal 1 damage.</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>COMBO</td>
       <td>REQ_TARGET_FOR_COMBO</td>
@@ -2563,11 +2541,11 @@ left_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>I have great deal for you... for 4 damage to y...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>NaN</td>
@@ -2583,14 +2561,14 @@ left_join_df
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TOPDECK</td>
       <td>NaN</td>
@@ -2609,11 +2587,11 @@ left_join_df
       <td>LEGENDARY</td>
       <td>1.0</td>
       <td>Was actually a pretty nice guy before, you kno...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
       <td>NaN</td>
@@ -2632,11 +2610,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>2 out of 2 saplings recommend that you summon ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CHOOSE_ONE</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -2655,11 +2633,11 @@ left_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>She loves mana crystals, she hates mana crysta...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>NaN</td>
@@ -2678,11 +2656,11 @@ left_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>She loves mana crystals, she hates mana crysta...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
       <td>NaN</td>
@@ -2702,10 +2680,10 @@ left_join_df
       <td>1.0</td>
       <td>Maybe if you whistle a tune it will soothe him...</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>INSPIRE</td>
       <td>NaN</td>
@@ -2721,14 +2699,14 @@ left_join_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TAG_ONE_TURN_EFFECT</td>
       <td>NaN</td>
@@ -2747,11 +2725,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>She was born to be something.  She is just not...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>REQ_FRIENDLY_TARGET</td>
@@ -2770,11 +2748,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>She was born to be something.  She is just not...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>REQ_TARGET_IF_AVAILABLE</td>
@@ -2793,11 +2771,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>She was born to be something.  She is just not...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>REQ_TARGET_WITH_RACE</td>
@@ -2816,11 +2794,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>She was born to be something.  She is just not...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>REQ_MINION_TARGET</td>
@@ -2839,11 +2817,11 @@ left_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>That's saberTEETH, not like curved pirate blad...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CHOOSE_ONE</td>
       <td>NaN</td>
@@ -2861,12 +2839,12 @@ left_join_df
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CHARGE</td>
       <td>NaN</td>
@@ -2884,12 +2862,12 @@ left_join_df
       <td>2.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>STEALTH</td>
       <td>NaN</td>
@@ -2928,14 +2906,14 @@ left_join_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
       <td>NaN</td>
@@ -2951,14 +2929,14 @@ left_join_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
       <td>NaN</td>
@@ -2974,14 +2952,14 @@ left_join_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
       <td>NaN</td>
@@ -2997,14 +2975,14 @@ left_join_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
       <td>NaN</td>
@@ -3020,14 +2998,14 @@ left_join_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
       <td>NaN</td>
@@ -3043,14 +3021,14 @@ left_join_df
       <td>2.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
       <td>NaN</td>
@@ -3062,18 +3040,18 @@ left_join_df
       <td>HERO</td>
       <td>The Cow King</td>
       <td>TB</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>30.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>InvisibleDeathrattle</td>
       <td>NaN</td>
@@ -3089,14 +3067,14 @@ left_join_df
       <td>4.0</td>
       <td>0.0</td>
       <td>10.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>NaN</td>
@@ -3112,14 +3090,14 @@ left_join_df
       <td>4.0</td>
       <td>0.0</td>
       <td>10.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>IMMUNE</td>
       <td>NaN</td>
@@ -3135,14 +3113,14 @@ left_join_df
       <td>2.0</td>
       <td>0.0</td>
       <td>1.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TAUNT</td>
       <td>NaN</td>
@@ -3158,14 +3136,14 @@ left_join_df
       <td>2.0</td>
       <td>0.0</td>
       <td>2.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ADJACENT_BUFF</td>
       <td>NaN</td>
@@ -3181,14 +3159,14 @@ left_join_df
       <td>2.0</td>
       <td>0.0</td>
       <td>2.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>AURA</td>
       <td>NaN</td>
@@ -3206,12 +3184,12 @@ left_join_df
       <td>2.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DEATHRATTLE</td>
       <td>NaN</td>
@@ -3227,14 +3205,14 @@ left_join_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TAG_ONE_TURN_EFFECT</td>
       <td>NaN</td>
@@ -3252,12 +3230,12 @@ left_join_df
       <td>2.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>NaN</td>
@@ -3275,12 +3253,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3298,12 +3276,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3321,12 +3299,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>FREEZE</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3344,12 +3322,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3365,14 +3343,14 @@ left_join_df
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3390,12 +3368,12 @@ left_join_df
       <td>5.0</td>
       <td>LEGENDARY</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>NaN</td>
@@ -3413,12 +3391,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3436,12 +3414,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3459,12 +3437,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3482,12 +3460,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3505,12 +3483,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3528,12 +3506,12 @@ left_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>ImmuneToSpellpower</td>
       <td>REQ_TARGET_TO_PLAY</td>
@@ -3551,12 +3529,12 @@ left_join_df
       <td>5.0</td>
       <td>LEGENDARY</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>BATTLECRY</td>
       <td>NaN</td>
@@ -3574,12 +3552,12 @@ left_join_df
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>TAUNT</td>
       <td>NaN</td>
@@ -3598,11 +3576,11 @@ left_join_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>While it's fun to intercept enemy lightning bo...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>SECRET</td>
       <td>NaN</td>
@@ -3615,7 +3593,7 @@ left_join_df
 
 
 
-Note that the results of this sort of join are dependent upon the position of each table--if we were to make `cards_with_mechanics_df` the right table and `play_requirements_df` the left table and then perform a **_Right Join_**, our results would be the same. 
+Note that the results of this sort of join are dependent upon the position of each table--if you were to make `cards_with_mechanics_df` the right table and `play_requirements_df` the left table and then perform a **_Right Join_**, our results would be the same. 
 
 **_Question:_**
 
@@ -3716,11 +3694,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>It's on the rack next to ice lance, acid lance...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>40.0</td>
@@ -3738,11 +3716,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>It's on the rack next to ice lance, acid lance...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>400.0</td>
@@ -3760,11 +3738,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>It's on the rack next to ice lance, acid lance...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>5.0</td>
@@ -3782,11 +3760,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>It's on the rack next to ice lance, acid lance...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>50.0</td>
@@ -3804,11 +3782,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>Burning man, brah.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>100.0</td>
@@ -3826,11 +3804,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>Burning man, brah.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>800.0</td>
@@ -3848,11 +3826,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>Burning man, brah.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>20.0</td>
@@ -3870,11 +3848,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>Burning man, brah.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>100.0</td>
@@ -3892,11 +3870,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>And he can't get up.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>100.0</td>
@@ -3914,11 +3892,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>And he can't get up.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>800.0</td>
@@ -3936,11 +3914,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>And he can't get up.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>20.0</td>
@@ -3958,11 +3936,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>And he can't get up.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>100.0</td>
@@ -3980,11 +3958,11 @@ outer_join_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>Now with 100% more blast!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>400.0</td>
@@ -4002,11 +3980,11 @@ outer_join_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>Now with 100% more blast!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>1600.0</td>
@@ -4024,11 +4002,11 @@ outer_join_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>Now with 100% more blast!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>100.0</td>
@@ -4046,11 +4024,11 @@ outer_join_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>Now with 100% more blast!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>400.0</td>
@@ -4068,11 +4046,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>It's always Huffer.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>100.0</td>
@@ -4090,11 +4068,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>It's always Huffer.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>800.0</td>
@@ -4112,11 +4090,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>It's always Huffer.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>20.0</td>
@@ -4134,11 +4112,11 @@ outer_join_df
       <td>RARE</td>
       <td>1.0</td>
       <td>It's always Huffer.</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>100.0</td>
@@ -4153,14 +4131,14 @@ outer_join_df
       <td>3.0</td>
       <td>4.0</td>
       <td>2.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4178,11 +4156,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Is he aspiring or inspiring?  Make up your mind!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>40.0</td>
@@ -4200,11 +4178,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Is he aspiring or inspiring?  Make up your mind!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>400.0</td>
@@ -4222,11 +4200,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Is he aspiring or inspiring?  Make up your mind!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>5.0</td>
@@ -4244,11 +4222,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Is he aspiring or inspiring?  Make up your mind!</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>50.0</td>
@@ -4263,14 +4241,14 @@ outer_join_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4288,11 +4266,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Does he sling spells, or do his spells linger ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>40.0</td>
@@ -4310,11 +4288,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Does he sling spells, or do his spells linger ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>400.0</td>
@@ -4332,11 +4310,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Does he sling spells, or do his spells linger ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>5.0</td>
@@ -4354,11 +4332,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>Does he sling spells, or do his spells linger ...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>50.0</td>
@@ -4397,12 +4375,12 @@ outer_join_df
       <td>5.0</td>
       <td>LEGENDARY</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4419,12 +4397,12 @@ outer_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4439,14 +4417,14 @@ outer_join_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4463,12 +4441,12 @@ outer_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4479,18 +4457,18 @@ outer_join_df
       <td>SPELL</td>
       <td>Again</td>
       <td>CHEAT</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4507,12 +4485,12 @@ outer_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4529,12 +4507,12 @@ outer_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4549,21 +4527,21 @@ outer_join_df
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
     </tr>
     <tr>
       <th>XXX_119e</th>
-      <td>None</td>
+      <td>NaN</td>
       <td>ENCHANTMENT</td>
       <td>Death No Rattle</td>
       <td>CHEAT</td>
@@ -4571,14 +4549,14 @@ outer_join_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4595,12 +4573,12 @@ outer_join_df
       <td>NaN</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4611,18 +4589,18 @@ outer_join_df
       <td>MINION</td>
       <td>Whelp</td>
       <td>EXPERT1</td>
-      <td>None</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>DRAGON</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4639,12 +4617,12 @@ outer_join_df
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>BEAST</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4661,12 +4639,12 @@ outer_join_df
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4677,18 +4655,18 @@ outer_join_df
       <td>MINION</td>
       <td>Damaged Golem</td>
       <td>EXPERT1</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>1.0</td>
       <td>2.0</td>
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>MECHANICAL</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>40.0</td>
@@ -4699,18 +4677,18 @@ outer_join_df
       <td>MINION</td>
       <td>Damaged Golem</td>
       <td>EXPERT1</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>1.0</td>
       <td>2.0</td>
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>MECHANICAL</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>400.0</td>
@@ -4721,18 +4699,18 @@ outer_join_df
       <td>MINION</td>
       <td>Damaged Golem</td>
       <td>EXPERT1</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>1.0</td>
       <td>2.0</td>
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>MECHANICAL</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>5.0</td>
@@ -4743,18 +4721,18 @@ outer_join_df
       <td>MINION</td>
       <td>Damaged Golem</td>
       <td>EXPERT1</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>1.0</td>
       <td>2.0</td>
       <td>1.0</td>
       <td>COMMON</td>
       <td>NaN</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>MECHANICAL</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>50.0</td>
@@ -4772,11 +4750,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>'Flesheating' is an unfair name.  It's just th...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>40.0</td>
@@ -4794,11 +4772,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>'Flesheating' is an unfair name.  It's just th...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>400.0</td>
@@ -4816,11 +4794,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>'Flesheating' is an unfair name.  It's just th...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>5.0</td>
@@ -4838,11 +4816,11 @@ outer_join_df
       <td>COMMON</td>
       <td>1.0</td>
       <td>'Flesheating' is an unfair name.  It's just th...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>50.0</td>
@@ -4857,14 +4835,14 @@ outer_join_df
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>None</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -4882,11 +4860,11 @@ outer_join_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>While it's fun to intercept enemy lightning bo...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>400.0</td>
@@ -4904,11 +4882,11 @@ outer_join_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>While it's fun to intercept enemy lightning bo...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>1600.0</td>
@@ -4926,11 +4904,11 @@ outer_join_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>While it's fun to intercept enemy lightning bo...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>100.0</td>
@@ -4948,11 +4926,11 @@ outer_join_df
       <td>EPIC</td>
       <td>1.0</td>
       <td>While it's fun to intercept enemy lightning bo...</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>400.0</td>
@@ -4963,18 +4941,18 @@ outer_join_df
       <td>MINION</td>
       <td>Spellbender</td>
       <td>EXPERT1</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>3.0</td>
       <td>EPIC</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_NORMAL</td>
       <td>400.0</td>
@@ -4985,18 +4963,18 @@ outer_join_df
       <td>MINION</td>
       <td>Spellbender</td>
       <td>EXPERT1</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>3.0</td>
       <td>EPIC</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>CRAFTING_GOLDEN</td>
       <td>1600.0</td>
@@ -5007,18 +4985,18 @@ outer_join_df
       <td>MINION</td>
       <td>Spellbender</td>
       <td>EXPERT1</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>3.0</td>
       <td>EPIC</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_NORMAL</td>
       <td>100.0</td>
@@ -5029,18 +5007,18 @@ outer_join_df
       <td>MINION</td>
       <td>Spellbender</td>
       <td>EXPERT1</td>
-      <td>None</td>
+      <td>NaN</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>3.0</td>
       <td>EPIC</td>
       <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>DISENCHANT_GOLDEN</td>
       <td>400.0</td>
@@ -5054,10 +5032,9 @@ outer_join_df
 
 Inspect the output above.  Note that the naming collision has been avoided by renaming the `cost` column from the right table to `cost_dust`.  
 
-# Conclusion
+## Summary
 
-In this lab, we learned how to:
+In this lab, you learned how to:
 
 * Concatenate multiple DataFrames together into a single DataFrame
-* Use `sqlalchemy` to connect to a sqlite database and read in individual tables as DataFrames
 * Understand and execute the various types of joins (inner, outer, left, and right joins)
