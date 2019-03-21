@@ -3,7 +3,7 @@
 
 ## Introduction
 
-In this lab, you'll gain practice combining DataFrames through concatenation.  You'll also learn to read in tables from a Database and store them in separate tables, as well as how to execute various types of joins to selectively combine the information stored in the tables!
+In this lab, you'll gain practice combining DataFrames through concatenation.  You'll also practice executing various types of joins to selectively combine the information stored in the tables!
 
 ## Objectives
 
