@@ -15,7 +15,7 @@ In this lab, you'll gain practice combining DataFrames through concatenation.  Y
 
 You'll start with a quick section to gain practice with concatenating datasets using `pd.concat()`.
 
-### Concatenating DataFrames
+## Concatenating DataFrames
 
 Run the cell below to create some sample DataFrames for us to work with.  
 
@@ -53,9 +53,9 @@ combined_df = None
 
 **_EXPECTED OUTPUT:_**
 
-<img src="er1.png">
+<img src="images/er1.png">
 
-### Setting Join Conditions With Concatenation
+## Setting Join Conditions With Concatenation
 
 You can also specify if the concatenation is an **_Outer Join_** or an **_Inner Join_**.  Next, you'll execute an inner join. Before you do, you need to create another table that contains some overlapping index values with a DataFrame that already exists.  
 
@@ -79,7 +79,7 @@ df1_and_4
 
 **_EXPECTED OUTPUT:_**
 
-<img src='er2.png'>
+<img src='images/er2.png'>
 
 You'll notice that in this case, the results returned contain only the rows with indexes that exist in both tables--rows 2 and 3.  The resulting table contains the values for each column in both tables for the rows.  
 
@@ -102,20 +102,11 @@ Simply run the cell below to import the tables from the database as DataFrames.
 
 
 ```python
-
-
-engine = None
-```
-
-#blank markdown to be removed`
-
-
-```python
-cards_df = None
-dust_df = None
-entourages_df = None
-mechanics_df = None
-play_requirements_df = None
+cards_df = pd.read_csv('cards.csv')
+dust_df = pd.read_csv('dust.csv')
+entourages_df = pd.read_csv('entourages.csv')
+mechanics_df = pd.read_csv('mechanics.csv')
+play_requirements_df = pd.read_csv('play_requirements.csv')
 ```
 
 Great.  Now, let's set the correct column, `card_id`, as the index column for each of these tables, and then display each to ensure that everything is as expected.  
@@ -124,11 +115,11 @@ For each of the dataframes you created in the cell above, call the `.set_index()
 
 **_NOTE:_** Since you are performing this operation in place, running any cell a second time will result in pandas throwing an error.  If you need to run something a second time, restart the kernel using the jupyter notebook menu at the top of the page.  
 
-### Executing Joins
+## Executing Joins
 
 Now that you have the tables loaded correctly, we're going to execute some joins. There are 4 different kinds of joins, which can best be visualized with venn diagrams:
 
-<img src='joins.png'>
+<img src='images/joins.png'>
 
 In these diagrams, each circle represents a DataFrame or SQL Table.  The left table is the table you are working with, and the right table is the table you want to join to the table you are working with.  You'll start by executing the most common type of join, an **_Inner Join_**.
 
@@ -155,7 +146,7 @@ ________________________________________________________________________________
 
 First performed an inner join, which only includes records that are present in both tables.  Although there were 2819 records in the left table, there were only 1079 records that existed in both tables, which are what you see in the resulting dataframe. 
 
-### Other Types of Joins
+## Other Types of Joins
 
 By default, the `.join()` method performs a left join if no parameter is passed in for `how=`.  In the cell below, perform a **_Left Join_** of `cards_with_mechanics_df` and `play_requirements_df`, with `cards_with_mechanics_df` as the left table.  
 
