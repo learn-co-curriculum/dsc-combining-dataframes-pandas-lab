@@ -726,7 +726,7 @@ play_requirements_df.head()
 
 Now that you have the tables loaded correctly, we're going to execute some joins. There are 4 different kinds of joins, which can best be visualized with venn diagrams:
 
-<img src='images/joins.png'>
+<img src='images/Image_198_joins.png'>
 
 In these diagrams, each circle represents a DataFrame or SQL Table.  The left table is the table you are working with, and the right table is the table you want to join to the table you are working with.  You'll start by executing the most common type of join, an **_Inner Join_**.
 
