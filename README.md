@@ -349,31 +349,6 @@ For each of the dataframes you created in the cell above, call the `.set_index()
 
 
 ```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
 # __SOLUTION__ 
 cards_df.set_index('card_id', inplace=True)
 cards_df.head()
@@ -810,7 +785,7 @@ play_requirements_df.head()
 
 ## Executing Joins
 
-Now that you have the tables loaded correctly, we're going to execute some joins. There are 4 different kinds of joins, which can best be visualized with venn diagrams:
+Now that you have the tables loaded correctly, we're going to execute some joins. There are 4 different kinds of joins, which can best be visualized with Venn diagrams:
 
 <img src='images/Image_198_joins.png'>
 
@@ -2186,11 +2161,11 @@ cards_with_mechanics_df
 
 
 
-Examine the output from the cell above and compare it to the original output of both the `cards_df` and `mechanics_df` DataFrame heads you displayed earlier.  Notice how it this now combines the columns from both?
+Examine the output from the cell above and compare it to the original output of both the `cards_df` and `mechanics_df` DataFrame heads you displayed earlier.  Notice how this now combines the columns from both?
 
 **_Question_**
 
-If you inspect the original `cards_df` DataFrame, you'll notice that it contains  2,819 records.  The result of our inner join, `cards_with_mechanics_df`, conntains only 1079 rows.  Why?
+If you inspect the original `cards_df` DataFrame, you'll notice that it contains  2,819 records.  The result of our inner join, `cards_with_mechanics_df`, contains only 1079 rows.  Why?
 
 Write your answer below this line:
 ________________________________________________________________________________
