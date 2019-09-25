@@ -44,7 +44,7 @@ df3 = pd.DataFrame({'A': ['A8', 'A9', 'A10', 'A11'],
 
 Now that you have multiple DataFrames to work with, you can execute a concatenation to join them together.  
 
-In the cell below, concatenate the 3 DataFrames together using the appropriate function.  
+In the cell below, concatenate the 3 DataFrames together using the appropriate function.   
 
 
 ```python
@@ -176,7 +176,7 @@ combined_df
 
 ## Setting Join Conditions With Concatenation
 
-You can also specify if the concatenation is an **_Outer Join_** or an **_Inner Join_**.  Next, you'll execute an inner join. Before you do, you need to create another table that contains some overlapping index values with a DataFrame that already exists.  
+You can also specify if the concatenation is an **_Outer Join_** or an **_Inner Join_**.  Next, you'll execute an inner join. Before you do, you need to create another table that contains some overlapping index values with a DataFrame that already exists. 
 
 Run the cell below to create the new DataFrame.
 
