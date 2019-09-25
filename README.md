@@ -68,7 +68,7 @@ df3 = pd.DataFrame({'A': ['A8', 'A9', 'A10', 'A11'],
 
 Now that you have multiple DataFrames to work with, you can execute a concatenation to join them together.  
 
-In the cell below, concatenate the 3 DataFrames together using the appropriate function.  
+In the cell below, concatenate the 3 DataFrames together using the appropriate function.   
 
 
 ```python
@@ -206,7 +206,7 @@ combined_df
 
 ## Setting Join Conditions With Concatenation
 
-You can also specify if the concatenation is an **_Outer Join_** or an **_Inner Join_**.  Next, you'll execute an inner join. Before you do, you need to create another table that contains some overlapping index values with a DataFrame that already exists.  
+You can also specify if the concatenation is an **_Outer Join_** or an **_Inner Join_**.  Next, you'll execute an inner join. Before you do, you need to create another table that contains some overlapping index values with a DataFrame that already exists. 
 
 Run the cell below to create the new DataFrame.
 
@@ -346,6 +346,31 @@ Great.  Now, let's set the correct column, `card_id`, as the index column for ea
 For each of the dataframes you created in the cell above, call the `.set_index()` method and pass in `card_id`.  Also set `inplace=True`.  Then, display the head of each respective DataFrame to ensure everything worked.  
 
 **_NOTE:_** Since you are performing this operation in place, running any cell a second time will result in pandas throwing an error.  If you need to run something a second time, restart the kernel using the jupyter notebook menu at the top of the page.  
+
+
+```python
+
+```
+
+
+```python
+
+```
+
+
+```python
+
+```
+
+
+```python
+
+```
+
+
+```python
+
+```
 
 
 ```python
