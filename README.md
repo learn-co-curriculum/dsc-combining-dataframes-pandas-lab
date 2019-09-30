@@ -7,8 +7,8 @@ In this lab, you'll gain practice combining DataFrames through concatenation.  Y
 
 ## Objectives
 
-* Concatenate multiple DataFrames together into a single DataFrame
-* Understand and execute the various types of joins (inner, outer, left, and right joins)
+- Concatenate multiple DataFrames together into a single DataFrame
+- Understand and execute the various types of joins (inner, outer, left, and right joins)
 
 
 ## Getting Started
