@@ -2102,7 +2102,12 @@ If you inspect the original `cards_df` DataFrame, you'll notice that it contains
 Write your answer below this line:
 ________________________________________________________________________________
 
-First performed an inner join, which only includes records that are present in both tables.  Although there were 2819 records in the left table, there were only 1079 records that existed in both tables, which are what you see in the resulting dataframe. 
+
+```python
+# First performed an inner join, which only includes records that are present in both tables.  
+# Although there were 2819 records in the left table, there were only 1079 records that existed in both tables, 
+# which are what you see in the resulting dataframe. 
+```
 
 ## Other Types of Joins
 
@@ -3602,7 +3607,11 @@ Describe what was included from each table in this join.
 Write your answer below this line:
 ________________________________________________________________________________
 
-Every record from `cards_with_mechanics_df`, as well as any records from `play_requirements_df` that have matching index values with a record from the left table.  
+
+```python
+# Every record from cards_with_mechanics_df, as well as any records from play_requirements_df that have matching index values 
+# with a record from the left table.  
+```
 
 #### Outer Joins
 
