@@ -1,9 +1,8 @@
-
 # Combining DataFrames With Pandas - Lab
 
 ## Introduction
 
-In this lab, you'll gain practice combining DataFrames through concatenation.  You'll also practice executing various types of joins to selectively combine the information stored in the tables!
+In this lab, you'll gain practice combining DataFrames through concatenation.  You'll also practice executing various types of joins to selectively combine the information stored in the tables.
 
 ## Objectives
 
@@ -82,10 +81,10 @@ df1_and_4
 
 You'll notice that in this case, the results contain only the rows with indexes that exist in both tables -- rows 2 and 3.  The resulting table contains the values for each column in both tables for the rows.  
 
-Note that there are many, many ways that you can make full use of the `pd.concat()` function in pandas to join DataFrames together -- these are just a few of the most common examples pulled from the pandas documentation on the subject. For a full view of all the ways you can use `pd.concat()`, see the [pandas documentation](http://pandas.pydata.org/pandas-docs/stable/merging.html)!
+Note that there are many, many ways that you can make full use of the `pd.concat()` function in pandas to join DataFrames together -- these are just a few of the most common examples pulled from the pandas documentation on the subject. For a full view of all the ways you can use `pd.concat()`, see the [pandas documentation](http://pandas.pydata.org/pandas-docs/stable/merging.html).
 
 ## Load data
-Now, it's time to move on to working with the Hearthstone cards database.  This database contains information on cards from the popular game, [Hearthstone](https://playhearthstone.com/en-us/)! For full information on the dataset, see the [Kaggle page](https://www.kaggle.com/jeradrose/hearthstone-cards) for this dataset. 
+Now, it's time to move on to working with the Hearthstone cards database.  This database contains information on cards from the popular game, [Hearthstone](https://playhearthstone.com/en-us/). For full information on the dataset, see the [Kaggle page](https://www.kaggle.com/jeradrose/hearthstone-cards) for this dataset. 
 
 This database consists of the following tables:
 
@@ -113,11 +112,6 @@ Great.  Now, let's set the correct column, `card_id`, as the index column for ea
 For each of the DataFrames you created in the cell above, call the `.set_index()` method and pass in `card_id`.  Also set `inplace=True`.  Then, display the `.head()` of each respective DataFrame to ensure everything worked.  
 
 **_NOTE:_** Since you are performing this operation in place, running any cell a second time will result in pandas throwing an error.  If you need to run something a second time, restart the kernel using the jupyter notebook menu at the top of the page.  
-
-
-```python
-
-```
 
 
 ```python
@@ -168,6 +162,13 @@ If you inspect the original `cards_df` DataFrame, you'll notice that it contains
 Write your answer below this line:
 ________________________________________________________________________________
 
+<details>
+    <summary style="cursor: pointer; display: inline">
+        <b><u>Solution (click to reveal)</u></b>
+    </summary>
+    <p>First we performed an inner join, which only includes records that are present in both tables. Although there were 2819 records in the left table, there were only 1079 records that existed in both tables, which are what you see in the resulting dataframe. </p>
+</details>
+
 ## Other Types of Joins
 
 By default, the `.join()` method performs a left join if no parameter is passed in for `how=`.  In the cell below, perform a **_Left Join_** of `cards_with_mechanics_df` and `play_requirements_df`, with `cards_with_mechanics_df` as the left table.  
@@ -188,6 +189,13 @@ Describe what was included from each table in this join.
 
 Write your answer below this line:
 ________________________________________________________________________________
+
+<details>
+    <summary style="cursor: pointer; display: inline">
+        <b><u>Solution (click to reveal)</u></b>
+    </summary>
+    <p>Every record from cards_with_mechanics_df, as well as any records from play_requirements_df that have matching index values with a record from the left table. </p>
+</details>
 
 #### Outer Joins
 
